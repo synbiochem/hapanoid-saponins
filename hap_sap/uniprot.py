@@ -8,6 +8,7 @@ To view a copy of this license, visit <http://opensource.org/licenses/MIT/>.
 @author:  neilswainston
 '''
 # pylint: disable=invalid-name
+# pylint: disable=wrong-import-order
 import csv
 import os
 import sys
@@ -78,9 +79,9 @@ def _split_list_to_rows(row, new_rows, column, sep):
 def main(args):
     '''main method.'''
     df = get_seqs(*args)
-    df = clustal.align(df)
+    df = clustal.align(df, args[1])
     df.to_csv(os.path.join(args[1], 'out.csv'),
-              encoding='utf8', quoting=csv.QUOTE_NONNUMERIC)
+              index=False, encoding='utf8', quoting=csv.QUOTE_NONNUMERIC)
 
 
 if __name__ == '__main__':
