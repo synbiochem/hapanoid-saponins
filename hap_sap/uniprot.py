@@ -8,10 +8,12 @@ To view a copy of this license, visit <http://opensource.org/licenses/MIT/>.
 @author:  neilswainston
 '''
 # pylint: disable=invalid-name
+import csv
 import os
 import sys
 from urllib import urlretrieve
 
+from hap_sap import clustal
 import pandas as pd
 
 
@@ -44,7 +46,7 @@ def _get_uniprot_data(df, out_dir):
         query_str = query + \
             '&format=tab' + \
             '&columns=id,entry name,protein names,organism,organism-id,' + \
-            'database(EMBL),sequence'
+            'ec,go,go-id,database(EMBL),sequence'
 
         url = 'http://www.uniprot.org/uniprot/?query=' + query_str
 
@@ -76,7 +78,9 @@ def _split_list_to_rows(row, new_rows, column, sep):
 def main(args):
     '''main method.'''
     df = get_seqs(*args)
-    df.to_csv(os.path.join(args[1], 'out.csv'), encoding='utf8')
+    df = clustal.align(df)
+    df.to_csv(os.path.join(args[1], 'out.csv'),
+              encoding='utf8', quoting=csv.QUOTE_NONNUMERIC)
 
 
 if __name__ == '__main__':
