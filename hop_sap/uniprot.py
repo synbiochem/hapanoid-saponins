@@ -14,7 +14,7 @@ import os
 import sys
 from urllib import urlretrieve
 
-from hap_sap import clustal
+from hop_sap import clustal
 import pandas as pd
 
 
